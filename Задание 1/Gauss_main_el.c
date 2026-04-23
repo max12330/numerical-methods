@@ -4,48 +4,67 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <windows.h>
+#include <math.h>
 #include <time.h>
 
 
 double* gauss(double **A, int n) {
-    // Прямой ход метода Гаусса (приведение к верхнетреугольному виду)
-    double m;
-    for (int k = 1; k < n; k++) {  // k от 1 до n-1
-        for (int j = k; j < n; j++) {  // j от k до n-1
-            if (A[k][k] == 0) {
-                printf("Ошибка: нулевой элемент на диагонали (k=%d)\n", k);
-                break;
+    // Прямой ход с выбором главного элемента по столбцу
+    for (int k = 0; k < n - 1; k++) {
+        // 1. Поиск главного элемента в столбце k
+        int max_row = k;
+        double max_val = fabs(A[k][k]);
+        for (int i = k + 1; i < n; i++) {
+            if (fabs(A[i][k]) > max_val) {
+                max_val = fabs(A[i][k]);
+                max_row = i;
             }
-            m = A[j][k-1] / A[k-1][k-1];
-            for (int i = 0; i < n + 1; i++) {  // i от 0 до n
-                A[j][i] -= m * A[k-1][i];
+        }
+        // Проверка на ноль
+        if (max_val < 1e-12) {
+            printf("Ошибка: столбец %d почти нулевой (главный элемент = %g)\n", k, max_val);
+            return NULL;
+        }
+        // 2. Перестановка строк
+        if (max_row != k) {
+            double *tmp = A[k];
+            A[k] = A[max_row];
+            A[max_row] = tmp;
+        }
+        // 3. Исключение под диагональю
+        for (int i = k + 1; i < n; i++) {
+            double factor = A[i][k] / A[k][k];
+            for (int j = k; j < n + 1; j++) {
+                A[i][j] -= factor * A[k][j];
             }
         }
     }
+
+    // Вывод матрицы после прямого хода
     if (n < 10) {
-        printf("Матрица после прямого хода:\n");
+        printf("Матрица после прямого хода (верхнетреугольная):\n");
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n + 1; j++) {
-                printf("%.2f ", A[i][j]);
+                printf("%.3f ", A[i][j]);
             }
             printf("\n");
         }
     }
 
-    // Обратный ход: вычисление X
+    // Обратный ход с проверкой диагонали
     double *X = (double *)malloc(n * sizeof(double));
-
     for (int i = n - 1; i >= 0; i--) {
-        if (A[i][i] == 0) {
-            printf("Ошибка: нулевой элемент на диагонали при обратном ходе (i=%d)\n", i);
-            break;
+        if (fabs(A[i][i]) < 1e-12) {
+            printf("Ошибка: нулевой диагональный элемент на шаге %d\n", i);
+            free(X);
+            return NULL;
         }
-        X[i] = A[i][n] / A[i][i];
-        for (int c = n - 1; c > i; c--) { 
-            X[i] -= A[i][c] * X[c] / A[i][i];
+        X[i] = A[i][n];
+        for (int j = i + 1; j < n; j++) {
+            X[i] -= A[i][j] * X[j];
         }
+        X[i] /= A[i][i];
     }
-
     return X;
 }
 
@@ -65,6 +84,7 @@ int main() {
     setlocale(LC_NUMERIC, "C");
 
     double **A;
+    double **A_for_check;
     double *B;
     double *X;
     double *X_target;
@@ -97,6 +117,14 @@ int main() {
                 }
             }
         }
+        //копируем матрицу A для проверки
+        A_for_check = (double **)malloc(n * sizeof(double *));
+        for (int i = 0; i < n; i++) {
+            A_for_check[i] = (double *)malloc((n + 1) * sizeof(double));
+            for (int j = 0; j < n + 1; j++) {
+                A_for_check[i][j] = A[i][j];
+            }
+        }
         // Закрытие файла
         fclose(fp);
 
@@ -124,9 +152,19 @@ int main() {
         }
         printf("=================\n");
 
+        double *check = (double *)malloc(n * sizeof(double));
+        check = matrix_x_vector_column(A_for_check, X, n);
+        for (int i = 0; i < n; i++) {
+            check[i] -= A_for_check[i][n]; // вычитаем b[i]
+        }
+        for (int i = 0; i < n; i++) {
+            printf("check[%d] = %.6f\n", i, check[i]);
+        }
+
         // Освобождение памяти
         for (int i = 0; i < n; i++) {
             free(A[i]);
+            free(A_for_check[i]);
         }
         free(A);
         free(X);
@@ -205,6 +243,8 @@ int main() {
             free(X_target);
         }     
     }
+
+
 
     return 0;
 }
