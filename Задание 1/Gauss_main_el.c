@@ -22,7 +22,8 @@ double* gauss(double **A, int n) {
         }
         // Проверка на ноль
         if (max_val < 1e-12) {
-            printf("Ошибка: столбец %d почти нулевой (главный элемент = %g)\n", k, max_val);
+            printf("Ошибка: столбец %d почти нулевой (главный элемент = %g)\n",
+                 k, max_val);
             return NULL;
         }
         // 2. Перестановка строк
@@ -111,7 +112,8 @@ int main() {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n + 1; j++) {
                 if (fscanf(fp, "%lf", &A[i][j]) != 1) {
-                    printf("Ошибка чтения элемента матрицы A[%d][%d]\n", i, j);
+                    printf("Ошибка чтения элемента матрицы A[%d][%d]\n", 
+                        i, j);
                     fclose(fp);
                     return 1;
                 }
@@ -243,8 +245,6 @@ int main() {
             free(X_target);
         }     
     }
-
-
-
+    
     return 0;
 }
