@@ -68,7 +68,7 @@ void print_matrix(double** A, int n, const char* title) {
 void print_eigenvalues(double* eigenvals, int n) {
     printf("\nСобственные значения (в порядке убывания):\n");
     for (int i = 0; i < n; i++)
-        printf("λ%d = %12.6f\n", i+1, eigenvals[i]);
+        printf("lambda%d = %12.6f\n", i+1, eigenvals[i]);
 }
 
 void print_eigenvectors(double** V, int n) {
@@ -241,11 +241,11 @@ double** read_matrix_from_keyboard(int* n) {
     return A;
 }
 
-// ======== ПРОВЕРКА A*v - λ*v = 0 
+// ======== ПРОВЕРКА A*v - lambda*v = 0 
 void check_residuals(double** A, double* eigenvalues, 
     double** eigenvectors, int n) {
     double max_resid = 0.0;
-    printf("\n=== ПРОВЕРКА A*v - λ*v ===\n");
+    printf("\n=== ПРОВЕРКА A*v - lambda*v ===\n");
     for (int j = 0; j < n; j++) {
         double* Av = (double*)malloc(n * sizeof(double));
         double* resid = (double*)malloc(n * sizeof(double));
@@ -262,7 +262,7 @@ void check_residuals(double** A, double* eigenvalues,
         norm_resid = sqrt(norm_resid);
         free(Av);
         free(resid);
-        printf("Невязка для λ%d = %e\n", j+1, norm_resid);
+        printf("Невязка для lambda%d = %e\n", j+1, norm_resid);
         if (norm_resid > max_resid) max_resid = norm_resid;
     }
     printf("Максимальная невязка: %e\n", max_resid);
