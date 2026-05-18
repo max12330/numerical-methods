@@ -2,7 +2,7 @@
 %\RequirePackage[14pt]{extsizes}
 \RequirePackage[
   		a4paper, mag=1000,
-  		left=1cm, right=1cm, top=1cm, bottom=2cm, bindingoffset=0cm,
+  		left=2cm, right=1cm, top=2cm, bottom=2cm, bindingoffset=0cm,
 		headheight=0cm, footskip=1cm, headsep=0cm
 	]{geometry}
 \RequirePackage{setspace}
@@ -143,6 +143,17 @@
     \cyro\cyrt\cyra}
     \renewcommand{\maketitle}{\CDMakeTitle}
     \workname{\MakeUppercase{\@worktype}}
+    \typework{\cyr\cyrn\cyra\cyrp\cyri\cyrs\cyra\cyrn\cyra}
+}
+
+\DeclareOption{calculation_methods}{%
+    \worktype{\cyr\cyrp\cyro\
+    \cyrd\cyri\cyrs\cyrc\cyri\cyrp\cyrl\cyri\cyrn\cyre \
+    \guillemotleft
+    \CYRCH\cyri\cyrs\cyrl\cyre\cyrn\cyrn\cyrery\cyre\ \cyra\cyrl\cyrg\cyro\cyrr\cyri\cyrt\cyrm\cyrery.\ \CYRP\cyro\cyrs\cyrt\cyrr\cyro\cyre\cyrn\cyri\cyre\ \cyri\ \cyra\cyrn\cyra\cyrl\cyri\cyrz
+    \guillemotright}
+    \renewcommand{\maketitle}{\CDMakeTitle}
+    \workname{\@worktype}  % без MakeUppercase
     \typework{\cyr\cyrn\cyra\cyrp\cyri\cyrs\cyra\cyrn\cyra}
 }
 
@@ -474,15 +485,17 @@
 % --------------------------------------------------------------------------%
 % Title pages
 % --------------------------------------------------------------------------%
-\newcommand{\shapka}{{\centering \CYRM\CYRI\CYRN\CYRO\CYRB\CYRR\CYRN\CYRA%
+\newcommand{\shapka}{{\fontsize{14}{12}\selectfont \centering \CYRM\CYRI\CYRN\CYRO\CYRB\CYRR\CYRN\CYRA%
 \CYRU\CYRK\CYRI\ \CYRR\CYRO\CYRS\CYRS\CYRI\CYRI\\ %
 \CYRF\cyre\cyrd\cyre\cyrr\cyra\cyrl\cyrsftsn\cyrn\cyro\cyre\ \cyrg\cyro%
 \cyrs\cyru\cyrd\cyra\cyrr\cyrs\cyrt\cyrv\cyre\cyrn\cyrn\cyro\cyre\ %
-\cyrb\cyryu\cyrd\cyrzh\cyre\cyrt\cyrn\cyro\cyre\ \cyro\cyrb\cyrr\cyra%
+\cyrb\cyryu\cyrd\cyrzh\cyre\cyrt\cyrn\cyro\cyre\  \cyro\cyrb\cyrr\cyra%
 \cyrz\cyro\cyrv\cyra\cyrt\cyre\cyrl\cyrsftsn\cyrn\cyro\cyre\ \cyru%
-\cyrch\cyrr\cyre\cyrzh\cyrd\cyre\cyrn\cyri\cyre\ \cyrv\cyrery\cyrs%
+\cyrch\cyrr\cyre\cyrzh\cyrd\cyre\cyrn\cyri\cyre\ \\ \cyrv\cyrery\cyrs%
 \cyrsh\cyre\cyrg\cyro\ \cyro\cyrb\cyrr\cyra\cyrz%
 \cyro\cyrv\cyra\cyrn\cyri\cyrya\\
+\fontsize{12}{12}\selectfont
+\textbf{
 <<\CYRS\CYRA\CYRR\CYRA\CYRT\CYRO\CYRV\CYRS\CYRK\CYRI\CYRISHRT\ %
 \CYRN\CYRA\CYRC\CYRI\CYRO\CYRN\CYRA\CYRL\CYRSFTSN\CYRN\CYRERY%
 \CYRISHRT\ \CYRI\CYRS\CYRS\CYRL\CYRE\CYRD\CYRO\CYRV\CYRA\CYRT\CYRE\CYRL%
@@ -490,7 +503,7 @@
 \CYRG\CYRO\CYRS\CYRU\CYRD\CYRA\CYRR\CYRS\CYRT\CYRV\CYRE\CYRN\CYRN\CYRERY%
 \CYRISHRT\ \CYRU\CYRN\CYRI\CYRV\CYRE\CYRR\CYRS\CYRI\CYRT\CYRE\CYRT\ %
 \CYRI\CYRM\CYRE\CYRN\CYRI~\CYRN.\,\CYRG.\,\CYRCH\CYRE\CYRR\CYRN\CYRERY%
-\CYRSH\CYRE\CYRV\CYRS\CYRK\CYRO\CYRG\CYRO>> %(\CYRS\CYRG\CYRU)
+\CYRSH\CYRE\CYRV\CYRS\CYRK\CYRO\CYRG\CYRO>>} %(\CYRS\CYRG\CYRU)
 \vspace{14pt}\\}}
 
 \newcommand{\CDMakeTitle}
@@ -510,7 +523,9 @@
 
 \vspace{1cm}
 {\centering
-\textbf{\MakeUppercase{\@title}}
+%\textbf{
+\MakeUppercase{\@title}
+%}
 \\[0.3cm]
 {\@workname}
 
@@ -526,13 +541,18 @@
 \end{flushleft}
 \vfill
 
-\noindent
-\CYRN\cyra\cyru\cyrch\cyrn\cyrery\cyrishrt\ \cyrr\cyru\cyrk\cyro\cyrv%
-\cyro\cyrd\cyri\cyrt\cyre\cyrl\cyrsftsn\\
+%\noindent
+
+%\CYRN\cyra\cyru\cyrch\cyrn\cyrery\cyrishrt\ \cyrr\cyru\cyrk\cyro\cyrv%
+%\cyro\cyrd\cyri\cyrt\cyre\cyrl\cyrsftsn\\
+%\signature{\@satitle}{\@saname}\\[14pt]
+%\CYRZ\cyra\cyrv\cyre\cyrd\cyru\cyryu\cyrshch\cyri\cyrishrt\ \cyrk\cyra%
+%\cyrf\cyre\cyrd\cyrr\cyro\cyrishrt\\
+%\signature{\@chtitle}{\@chname}
+
+\par\noindent
+\CYRP\cyrr\cyro\cyrv\cyre\cyrr\cyri\cyrl :\\
 \signature{\@satitle}{\@saname}\\[14pt]
-\CYRZ\cyra\cyrv\cyre\cyrd\cyru\cyryu\cyrshch\cyri\cyrishrt\ \cyrk\cyra%
-\cyrf\cyre\cyrd\cyrr\cyro\cyrishrt\\
-\signature{\@chtitle}{\@chname}
 
 \vfill
 {\centering{\cyr\CYRS\cyra\cyrr\cyra\cyrt\cyro\cyrv\ \@date}
